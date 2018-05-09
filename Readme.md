@@ -2,7 +2,9 @@
 
 > Need to avoid xsi:nil="true" attribute to be applied to certain elements
 
-> More research needed to identify exact cause and better solution but gist of issue is that an element defined as a complex reference type without a nullable="true" attribute but whose type actually has the nullable attribute set is getting it.
+```
+More research needed to identify exact cause and better solution but gist of issue is that an element defined as a complex reference type without a nullable="true" attribute but whose type actually has the nullable attribute set is getting it.
+```
 
 Example:
 
@@ -22,19 +24,19 @@ Example:
 </s:complexType>
 ```
 
-Is getting returned as:
+result returned as:
 
 ```xml
 <Messages xsi:nil="true" />
 ```
 
-This results in the calling applications underlying Java libraries validation to fail:
+Calling an automated generator in the calling applications underlying Java libraries wsdl validation implementation and therefore method access to fail:
 
 ```javascript
 ws = createObject("webservice", "urlto?wsdl")
-	.verifyAuthentication({})
-	.getMessages()
-	.getString();
+	.originalMethod()
+	.getMessages() // available
+	.getString(); // causes access error
 ```
 
 ```javascript
